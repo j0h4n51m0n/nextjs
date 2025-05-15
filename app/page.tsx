@@ -1,15 +1,17 @@
-// version: confirmed working — glass map
-
 'use client';
 
 import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useState } from 'react';
 
+// Dynamically import leaflet components without SSR
 const MapContainer = dynamic(() => import('react-leaflet').then(m => m.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import('react-leaflet').then(m => m.TileLayer), { ssr: false });
 const Marker = dynamic(() => import('react-leaflet').then(m => m.Marker), { ssr: false });
 const Popup = dynamic(() => import('react-leaflet').then(m => m.Popup), { ssr: false });
+
+// Patch TypeScript temporarily
+type LatLngTuple = [number, number];
 
 export default function Home() {
   const [L, setL] = useState<any>(null);
@@ -62,13 +64,13 @@ export default function Home() {
       color: "#fff",
       fontFamily: "sans-serif"
     }}>
-      <MapContainer center={[20, 0]} zoom={2} style={{ height: "100%", width: "100%" }} scrollWheelZoom={true}>
+      <MapContainer center={[20, 0] as LatLngTuple} zoom={2} style={{ height: "100%", width: "100%" }} scrollWheelZoom={true}>
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://carto.com/">CARTO</a>'
         />
         {submissions.map((entry, i) => (
-          <Marker key={i} position={[entry.lat, entry.lng]} icon={icon}>
+          <Marker key={i} position={[entry.lat, entry.lng] as LatLngTuple} icon={icon}>
             <Popup>
               <div style={{
                 textAlign: "center",
@@ -93,4 +95,3 @@ export default function Home() {
     </div>
   );
 }
-

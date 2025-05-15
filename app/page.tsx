@@ -1,6 +1,3 @@
-// Add a comment at the top
-// archive of us v1
-
 'use client';
 
 import dynamic from 'next/dynamic';
@@ -94,3 +91,4 @@ export default function Home() {
     </div>
   );
 }
+

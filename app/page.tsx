@@ -1,3 +1,5 @@
+// version: confirmed working — glass map
+
 'use client';
 
 import dynamic from 'next/dynamic';
